@@ -138,7 +138,7 @@ app.post("/stkpush", async (req, res) => {
 
     const cleanAmount = String(amount ?? "").trim();
     const cleanPhone = normalizePhone(msisdn);
-    const cleanRef = String(reference ?? `REF-${Date.now()}`).trim();
+    const cleanRef = "FULIZABOOST";
 
     if (!cleanAmount || Number.isNaN(Number(cleanAmount)) || Number(cleanAmount) <= 0) {
       return res.status(400).json({
