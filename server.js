@@ -120,6 +120,15 @@ function upsertTransaction(requestId, patch) {
   return next;
 }
 
+// Root route for quick verification
+app.get("/", (req, res) => {
+  res.status(200).json({
+    ok: true,
+    service: "pesaflux-backend",
+    endpoints: ["/health", "/stkpush", "/status", "/callback"]
+  });
+});
+
 // Health check for Render
 app.get("/health", (req, res) => {
   res.status(200).json({
@@ -138,7 +147,7 @@ app.post("/stkpush", async (req, res) => {
 
     const cleanAmount = String(amount ?? "").trim();
     const cleanPhone = normalizePhone(msisdn);
-    const cleanRef = "FULIZABOOST";
+    const cleanRef = String(reference ?? "FULIZABOOST").trim();
 
     if (!cleanAmount || Number.isNaN(Number(cleanAmount)) || Number(cleanAmount) <= 0) {
       return res.status(400).json({
@@ -351,6 +360,6 @@ app.use((req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on port ${PORT}`);
 });
